@@ -72,9 +72,9 @@ const clientEntrypoints = [
   },
   {
     name: 'CLIENT - Sidebar About Page',
-    entry: './src/client/sidebar-about-page/index.js',
-    filename: 'sidebar-about-page',
-    template: './src/client/sidebar-about-page/index.html',
+    entry: './src/client/sidebar/index.js',
+    filename: 'sidebar',
+    template: './src/client/sidebar/index.html',
   },
 ];
 

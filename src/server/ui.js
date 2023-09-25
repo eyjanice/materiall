@@ -1,11 +1,13 @@
-export const onOpen = () => {
-  const menu = SpreadsheetApp.getUi()
-    .createMenu('My Sample React Project') // edit me!
-    .addItem('Sheet Editor', 'openDialog')
-    .addItem('Sheet Editor (Bootstrap)', 'openDialogBootstrap')
-    .addItem('Sheet Editor (MUI)', 'openDialogMUI')
-    .addItem('Sheet Editor (Tailwind CSS)', 'openDialogTailwindCSS')
-    .addItem('About me', 'openAboutSidebar');
+export const onOpen = (e) => {
+  const menu = DocumentApp.getUi()
+    .createAddonMenu()
+    .addItem('Create Questions from Slides', 'openSidebar')
+    .addItem('Sheet Editor', 'openDialog');
+
+  if (e && e.authMode !== ScriptApp.AuthMode.NONE) {
+    // Add a normal menu item (works in all authorization modes).
+    menu.addItem('Convert Answer Key to Worksheet', 'makeWorkSheet');
+  }
 
   menu.addToUi();
 };
@@ -14,31 +16,11 @@ export const openDialog = () => {
   const html = HtmlService.createHtmlOutputFromFile('dialog-demo')
     .setWidth(600)
     .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Sheet Editor');
+  DocumentApp.getUi().showModalDialog(html, 'Sheet Editor');
 };
 
-export const openDialogBootstrap = () => {
-  const html = HtmlService.createHtmlOutputFromFile('dialog-demo-bootstrap')
-    .setWidth(600)
-    .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Sheet Editor (Bootstrap)');
-};
-
-export const openDialogMUI = () => {
-  const html = HtmlService.createHtmlOutputFromFile('dialog-demo-mui')
-    .setWidth(600)
-    .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Sheet Editor (MUI)');
-};
-
-export const openDialogTailwindCSS = () => {
-  const html = HtmlService.createHtmlOutputFromFile('dialog-demo-tailwindcss')
-    .setWidth(600)
-    .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Sheet Editor (Tailwind CSS)');
-};
-
-export const openAboutSidebar = () => {
-  const html = HtmlService.createHtmlOutputFromFile('sidebar-about-page');
-  SpreadsheetApp.getUi().showSidebar(html);
+export const openSidebar = () => {
+  const template = HtmlService.createTemplateFromFile('sidebar');
+  const html = template.evaluate().setTitle('MateriALL');
+  DocumentApp.getUi().showSidebar(html);
 };
