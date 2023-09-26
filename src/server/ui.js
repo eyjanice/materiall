@@ -13,10 +13,11 @@ export const onOpen = (e) => {
 };
 
 export const openDialog = () => {
-  const html = HtmlService.createHtmlOutputFromFile('dialog-demo')
-    .setWidth(600)
-    .setHeight(600);
-  DocumentApp.getUi().showModalDialog(html, 'Sheet Editor');
+  const html = HtmlService.createTemplateFromFile('modal')
+    .evaluate()
+    .setWidth(800)
+    .setHeight(700);
+  DocumentApp.getUi().showModalDialog(html, 'MateriALL Question Editor');
 };
 
 export const openSidebar = () => {

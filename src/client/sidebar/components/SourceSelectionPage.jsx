@@ -1,88 +1,5 @@
 import React, { useState } from 'react';
-
-// function getPageContent() {
-//   let slidePage = document.getElementById('pageNumber').value;
-//   google.script.run
-//     .withSuccessHandler(displayContent)
-//     .getPageTextAndImg(parseInt(slidePage));
-// }
-
-// function displayContent(pageDetails) {
-//   let thumbnailDiv = document.getElementById('thumbnail');
-//   thumbnailDiv.innerHTML =
-//     "<image src='" + pageDetails[0] + "' atl='pageThumbnail'/>";
-//   let textOptionsDiv = document.getElementById('textOptions');
-//   var currTextOptions = '';
-//   pageDetails[1].forEach((e, i) => {
-//     if (e !== '\n' && e !== '\u000b' && e !== ' ') {
-//       currTextOptions += `<input type="checkbox" class="textOption" id="text-${i}" name="text-${i}" value="${e}">
-//     <label for="text-${i}">${e}</label><br>`;
-//     }
-//   });
-//   var currImgOptions = '';
-//   pageDetails[2].forEach((e, i) => {
-//     currImgOptions += `<input type="checkbox" class="imgOption" id="img-${i}" name="img-${i}" value="${e}">
-//     <label for="img-${i}"><img src="${e}" width="200"/></label><br>`;
-//   });
-//   textOptionsDiv.innerHTML = currTextOptions;
-//   textOptionsDiv.innerHTML += currImgOptions;
-//   textOptionsDiv.innerHTML += `<button class="btn btn-green" id="create-question" onclick="saveCheckedItems()">generate</button>`;
-//   document.getElementById('pageNumber').value = pageDetails[3];
-// }
-
-// function updatePageNumber(action) {
-//   var pageInput = document.getElementById('pageNumber');
-//   var pageNumber = parseInt(pageInput.value);
-//   if (action === 'next') {
-//     pageInput.value = pageNumber + 1;
-//   } else {
-//     pageInput.value = pageNumber - 1;
-//   }
-//   getPageContent();
-// }
-
-// function displayTotal(total) {
-//   var pageInput = document.getElementById('totalPages');
-//   pageInput.innerHTML = parseInt(total);
-// }
-
-// function changePage(page) {
-//   document.open();
-//   document.write(page);
-//   document.close();
-// }
-
-// function saveCheckedItems() {
-//   var checkedTextArr = Array.from(
-//     document.querySelectorAll("input[class='textOption']:checked")
-//   ).map((elem) => elem.value.replace(/\s+/g, ' ').trim());
-//   var checkedText = checkedTextArr.join(' ');
-//   var checkedImgUrl = Array.from(
-//     document.querySelectorAll("input[class='imgOption']:checked")
-//   ).map((elem) => elem.value);
-
-//   google.script.run
-//     .withSuccessHandler(showModal)
-//     .saveClickedElements(checkedText, checkedImgUrl);
-// }
-
-// function showModal() {
-//   google.script.run.withSuccessHandler().showDialog();
-// }
-
-// function convertToWorksheet() {
-//   google.script.run
-//     .withSuccessHandler(alert('WorkSheet is in your Google Drive™ now.'))
-//     .makeWorkSheet();
-// }
-
-// function backToLanding() {
-//   google.script.run.withSuccessHandler(changePage).newPage('landing');
-// }
-
-// google.script.run.withSuccessHandler(displayContent).getPageTextAndImg(1);
-
-// google.script.run.withSuccessHandler(displayTotal).getTotalPages();
+import { serverFunctions } from '../../utils/serverFunctions';
 
 export function SourceSelectionPage({ slides }) {
   const [pageNumber, setPageNumber] = useState(0);
@@ -155,7 +72,7 @@ export function SourceSelectionPage({ slides }) {
           </div>
           <div className="detected-description">
             <p>
-              {' '}
+              <DetectedContent slide={slides[pageNumber]} />
               Below are the source content that MateriALL detected based on the
               slide above.
             </p>
@@ -176,6 +93,46 @@ export function SourceSelectionPage({ slides }) {
 
 function DetectedContent({ slide }) {
   // use map - one for texts and one for image
-  // slide.texts
-  // slide.imageUrls
+  const [checked, setChecked] = useState({});
+  function onClickHandler() {
+    console.log(Object.keys(checked));
+    serverFunctions
+      .saveClickedElements(Object.keys(checked).join(' '))
+      .then(() => serverFunctions.openDialog());
+  }
+  return (
+    <div>
+      <ul>
+        {slide.texts.map((text, index) => {
+          if (text !== '\n' && text !== '\u000b' && text !== ' ')
+            return (
+              <li>
+                <input
+                  type="checkbox"
+                  className="textOption"
+                  id={`text-${index}`}
+                  onClick={(e) => {
+                    const selected = e.currentTarget.checked;
+                    setChecked((prevChecked) => {
+                      if (selected) {
+                        prevChecked[text] = true;
+                      } else {
+                        delete prevChecked[text];
+                      }
+                      console.log(prevChecked);
+                      return prevChecked;
+                    });
+                  }}
+                  value={text}
+                />
+                <label for={`text-${index}`}>{text}</label>
+              </li>
+            );
+        })}
+      </ul>
+      <button className="btn btn-green" onClick={onClickHandler}>
+        generate
+      </button>
+    </div>
+  );
 }

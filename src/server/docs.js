@@ -121,16 +121,6 @@ function saveSlideID(url) {
 
 // ===== functions for modal.html ========================================
 
-// shows dialog/modal
-function showDialog() {
-  const html = HtmlService.createTemplateFromFile('modal')
-    .evaluate()
-    .setWidth(800)
-    .setHeight(700);
-
-  DocumentApp.getUi().showModalDialog(html, 'MateriALL Question Editor');
-}
-
 // get previously selected elements
 export function getCheckedData() {
   const userProperties = PropertiesService.getUserProperties();
