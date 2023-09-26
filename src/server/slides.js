@@ -42,9 +42,3 @@ export function getSlide(slideUrl) {
     };
   });
 }
-
-// saves current selected elements
-export function saveClickedElements(checkedText) {
-  const userProperties = PropertiesService.getUserProperties();
-  userProperties.setProperty('CHECKED_TEXT', checkedText);
-}
