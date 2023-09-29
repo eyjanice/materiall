@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { serverFunctions } from '../../utils/serverFunctions';
+import '../index.css';
 
 export function SourceSelectionPage({ slides }) {
   const [pageNumber, setPageNumber] = useState(0);

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { serverFunctions } from '../utils/serverFunctions';
+import './App.css';
 
 import { QuestionEditor } from './components/QuestionEditor';
 
@@ -8,7 +9,7 @@ export function App() {
     serverFunctions.getCheckedData().then(console.log).catch(alert);
   }, []);
 
-  return <QuestionEditor data={TEST_DATA} />;
+  return <QuestionEditor data={TEST_DATA[0]} />;
 }
 
 const TEST_DATA = [

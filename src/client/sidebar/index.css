@@ -298,3 +298,7 @@ body {
   text-align: right;
   font-weight: 500;
 }
+
+ul {
+  list-style-type: none;
+}

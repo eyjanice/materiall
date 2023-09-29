@@ -4,6 +4,8 @@ import { getSlide, getPageTextAndImg, getTotalPages } from './slides';
 
 import { saveClickedElements, getCheckedData } from './storage';
 
+import { insertToDoc } from './docs';
+
 export {
   onOpen,
   openDialog,
@@ -13,4 +15,5 @@ export {
   getTotalPages,
   saveClickedElements,
   getCheckedData,
+  insertToDoc,
 };

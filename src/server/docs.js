@@ -67,10 +67,9 @@ function insertImgToDoc() {
 }
 
 // inserts content to google doc
-function insertToDoc(res) {
-  const value = res[0];
-  const hasImage = res[1];
+export function insertToDoc(text) {
   const body = DocumentApp.getActiveDocument().getBody();
+
   let isEmpty = true;
   for (var i = 0; i < body.getNumChildren(); i++) {
     if (body.getChild(i).getText() != '') {
@@ -89,11 +88,7 @@ function insertToDoc(res) {
     instructionText.setAttributes(style);
   }
 
-  body.appendParagraph(value);
-
-  if (hasImage) {
-    insertImgToDoc();
-  }
+  body.appendParagraph(text);
 }
 
 // ===== functions for all pages ===========================================
