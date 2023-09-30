@@ -64,6 +64,7 @@ export function QuestionInput({
         <MultipleQuestionInput
           onStatementChange={setStatement}
           statement={statement}
+          data={data}
         />
       )}
       {/* <!-- for short main area --> */}
@@ -73,44 +74,6 @@ export function QuestionInput({
           statement={statement}
         />
       )}
-      {/* <PopupModal
-        headerTypeText={'True/False Question'}
-        body={
-          <>
-            <div className="true-false-question-bar">
-              <div className="question-title-bar">
-                <div className="question-title">True Statements</div>
-
-                <div className="tooltip-container tooltip-container-option-generate">
-                  <img className="tooltip tooltip-option-generate" />
-                  <span className="tooltiptext tooltiptext-option-generate">
-                    MateriALL used AI technology to generate these statements.
-                    You can write your own option as well.
-                  </span>
-                </div>
-              </div>
-              <div className="toggle-wrapper">
-                <div className="toggle-slider-container">
-                  <div className="margin-right-10px">true</div>
-                  <label className="switch" for="modalTrueFalseCheckbox">
-                    <input
-                      type="checkbox"
-                      id="modalTrueFalseCheckbox"
-                      onchange="toggleModalTrueFalse()"
-                    />
-                    <div className="slider round"></div>
-                  </label>
-                  <div className="margin-left-10px">false</div>
-                </div>
-              </div>
-            </div>
-            <div className="margin-bottom-20px">
-              Select the statement for this question, or write your own.
-            </div>
-            <form id="trueFalseOptions" className="options-form"></form>
-          </>
-        }
-      /> */}
     </div>
   );
 }

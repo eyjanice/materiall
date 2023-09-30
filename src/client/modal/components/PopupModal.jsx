@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export function PopupModal({ headerTypeText, body }) {
+export function PopupModal({ headerTypeText, body, onCloseClick }) {
   return (
     <div id="small-modal-container" className="small-modal-container">
       <div className="small-modal-header">
@@ -10,10 +10,7 @@ export function PopupModal({ headerTypeText, body }) {
             Auto-Generated Options
           </div>
         </div>
-        <img
-          className="small-modal-header-close"
-          onclick="closeModal('trueFalseModal')"
-        />
+        <img className="small-modal-header-close" onClick={onCloseClick} />
       </div>
       <div className="small-modal-main">{body}</div>
     </div>

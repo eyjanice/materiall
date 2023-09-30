@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export function MultipleQuestionInput({
-  setStatementChange,
+  onStatementChange,
   statement,
   answer,
+  data,
 }) {
+  const [options, setOptions] = useState(
+    'You have not created or generated any options yet. Use "edit options".'
+  );
   return (
     <div id="multipleDiv" className="question-edit-container">
       <div>
@@ -25,7 +29,7 @@ export function MultipleQuestionInput({
         id="multipleQ"
         value={statement}
         onChange={(e) => {
-          setStatement(e.currentTarget.value);
+          onStatementChange(e.currentTarget.value);
         }}
         rows="2"
         cols="50"
@@ -34,6 +38,7 @@ export function MultipleQuestionInput({
       <textarea
         className="question-edit-textarea"
         id="multipleO"
+        value={options}
         // onkeypress="showPreview(this)"
         // onChange="showPreview(this)"
         rows="5"
