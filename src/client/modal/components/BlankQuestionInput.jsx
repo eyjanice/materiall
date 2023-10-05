@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { PopupModal } from './PopupModal';
 
 export function BlankQuestionInput({
-  onStatementChange,
-  onAnswerChange,
+  setStatement,
+  setAnswer,
   statement,
+  answer,
   data,
 }) {
-  const [answer, setAnswer] = useState(data.blank.answer);
+  // useEffect(() => {
+  //   setAnswer(answer);
+  // }, [answer]); // as [answer] changes {setAnswer} is called
+
   useEffect(() => {
-    onAnswerChange(answer);
-  }, [answer]); // as [answer] changes {onAnswerChange} is called
+    setStatement(data.blank.blank_sentence);
+    setAnswer(data.blank.answer);
+  }, []);
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
     <div id="blankDiv" className="question-edit-container">
@@ -21,7 +29,9 @@ export function BlankQuestionInput({
         <div className="question-edit-label">statement</div>
         <div
           className="more-option-btn"
-          // onClick="showBlankOptions()"
+          onClick={(e) => {
+            setIsPopupOpen(true);
+          }}
         >
           edit blanks
         </div>
@@ -32,7 +42,7 @@ export function BlankQuestionInput({
         id="blankQ"
         value={statement}
         onChange={(e) => {
-          onStatementChange(e.currentTarget.value);
+          setStatement(e.currentTarget.value);
         }}
         rows="2"
         cols="50"
@@ -43,11 +53,121 @@ export function BlankQuestionInput({
         type="text"
         id="blankA"
         value={answer}
-        // onkeypress="showPreview(this)"
         onChange={(e) => setAnswer(e.currentTarget.value)}
         rows="2"
         cols="50"
       ></textarea>
+      {isPopupOpen && (
+        <PopupModal
+          onCloseClick={() => setIsPopupOpen(false)}
+          headerTypeText={'Fill-in-The-Blank Question'}
+          body={
+            <BlankPopup
+              close={() => setIsPopupOpen(false)}
+              setStatement={setStatement}
+              setAnswer={setAnswer}
+              statement={statement}
+              answer={answer}
+              data={data}
+            />
+          }
+        />
+      )}
+    </div>
+  );
+}
+
+const getInitialSelectedIndice = (beginning, answer) => {
+  const selectedIndice = [];
+  let index = 0;
+  if (beginning.length > 0) {
+    index += beginning.split(' ').length;
+  }
+
+  answer.split(' ').forEach(() => {
+    selectedIndice.push(index);
+    index++;
+  });
+
+  return selectedIndice;
+};
+
+function BlankPopup({
+  close,
+  setStatement,
+  setAnswer,
+  statement,
+  answer,
+  data,
+}) {
+  const words = data.text.split(' ');
+  const [selectedIndice, setSelectedIndice] = useState(
+    getInitialSelectedIndice(data.blank.beginning, data.blank.answer)
+  );
+
+  return (
+    <div>
+      <div class="question-title-bar">
+        <div class="question-title">Blanks</div>
+        <div class="tooltip-container tooltip-container-option-generate">
+          <img class="tooltip tooltip-option-generate" />
+          <span class="tooltiptext tooltiptext-option-generate">
+            MateriALL used AI technology to generate these statements. You can
+            write your own option as well.
+          </span>
+        </div>
+      </div>
+      <div class="margin-bottom-20px">
+        Red, underlined words will be blank once converted. To toggle them blank
+        or not blank, click on words.
+      </div>
+      <form id="blankOptions" class="options-form-sentence">
+        {words.map((word, index) => {
+          return (
+            <React.Fragment>
+              <input
+                type="checkbox"
+                name="blankOptions"
+                value={word}
+                id={`word-${index}`}
+                onChange={() => {
+                  setSelectedIndice((originalSelectedIndice) => {
+                    if (originalSelectedIndice.includes(index)) {
+                      return originalSelectedIndice.filter((selectedIndex) => {
+                        return selectedIndex !== index;
+                      });
+                    } else {
+                      return originalSelectedIndice.concat(index);
+                    }
+                  });
+                }}
+                checked={selectedIndice.includes(index)}
+              />
+              <label for={`word-${index}`}>{word} </label>
+            </React.Fragment>
+          );
+        })}
+        <div class="submit-btn-container">
+          <input
+            id="submit-blank"
+            type="button"
+            value="done"
+            onClick={(e) => {
+              close();
+              // setStatement(localStatement);
+              // '_'.repeat(word.length)
+              setAnswer(
+                selectedIndice
+                  .sort((a, b) => a - b)
+                  .map((index) => {
+                    return words[index];
+                  })
+                  .join(', ')
+              );
+            }}
+          ></input>
+        </div>
+      </form>
     </div>
   );
 }

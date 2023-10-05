@@ -1,19 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { PopupModal } from './PopupModal';
 
+const TrueFalseAnswers = {
+  True: 'True',
+  False: 'False',
+};
+
 export function TrueFalseQuestionInput({
-  onStatementChange,
-  onAnswerChange,
+  setStatement,
+  setAnswer,
   statement,
+  answer,
   data,
 }) {
-  const [answer, setAnswer] = useState('True');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
-    onStatementChange(answer === 'True' ? data.text : data.false_sentences[0]);
-    onAnswerChange(answer);
-  }, [answer]);
+    setStatement(data.text);
+    setAnswer(TrueFalseAnswers.True);
+  }, []); // Since dependency is a blank array, onStatemenChange and setAnswer only run once, when loaded for the first time.
+
+  const toggleAnswerCheckbox = () => {
+    const a =
+      answer === TrueFalseAnswers.True
+        ? TrueFalseAnswers.False
+        : TrueFalseAnswers.True;
+    setAnswer(a);
+    setStatement(
+      a === TrueFalseAnswers.True ? data.text : data.false_sentences[0]
+    );
+  };
+
+  const onSubmitHandler = (localStatement, localAnswer) => {
+    setAnswer(localAnswer);
+    setStatement(localStatement);
+  };
 
   return (
     <div id="trueFalseDiv" className="question-edit-container">
@@ -34,7 +55,7 @@ export function TrueFalseQuestionInput({
         id="trueFalseQ"
         value={statement}
         onChange={(e) => {
-          onStatementChange(e.currentTarget.value);
+          setStatement(e.currentTarget.value);
         }}
         rows="2"
         cols="50"
@@ -46,11 +67,7 @@ export function TrueFalseQuestionInput({
             type="checkbox"
             id="trueFalseCheckbox"
             value={answer}
-            onChange={() => {
-              setAnswer((v) => {
-                return v === 'True' ? 'False' : 'True';
-              });
-            }}
+            onChange={toggleAnswerCheckbox}
           />
           <div className="slider round"></div>
         </label>
@@ -65,14 +82,35 @@ export function TrueFalseQuestionInput({
         <PopupModal
           onCloseClick={() => setIsPopupOpen(false)}
           headerTypeText={'True/False Question'}
-          body={<TrueFalsePopup />}
+          body={
+            <TrueFalsePopup
+              close={() => setIsPopupOpen(false)}
+              setStatement={setStatement}
+              setAnswer={setAnswer}
+              statement={statement}
+              answer={answer}
+              data={data}
+            />
+          }
         />
       )}
     </div>
   );
 }
 
-function TrueFalsePopup() {
+function TrueFalsePopup({
+  close,
+  setStatement,
+  setAnswer,
+  statement,
+  answer,
+  data,
+}) {
+  const [options, setOptions] = useState(
+    answer === TrueFalseAnswers.True ? [statement] : data.false_sentences
+  );
+  const [localAnswer, setLocalAnswer] = useState(answer);
+  const [localStatement, setLocalStatement] = useState();
   return (
     <div>
       <div className="true-false-question-bar">
@@ -93,7 +131,16 @@ function TrueFalsePopup() {
               <input
                 type="checkbox"
                 id="modalTrueFalseCheckbox"
-                onchange="toggleModalTrueFalse()"
+                value={localAnswer === TrueFalseAnswers.True}
+                onChange={() => {
+                  if (localAnswer === TrueFalseAnswers.True) {
+                    setLocalAnswer(TrueFalseAnswers.False);
+                    setOptions(data.false_sentences);
+                  } else {
+                    setLocalAnswer(TrueFalseAnswers.True);
+                    setOptions([statement]);
+                  }
+                }}
               />
               <div className="slider round"></div>
             </label>
@@ -104,7 +151,51 @@ function TrueFalsePopup() {
       <div className="margin-bottom-20px">
         Select the statement for this question, or write your own.
       </div>
-      <form id="trueFalseOptions" className="options-form"></form>
+      <form id="trueFalseOptions" className="options-form">
+        {options.map((option, index) => {
+          return (
+            <React.Fragment key={option}>
+              <input
+                type="radio"
+                className="tFstatements"
+                name="tFStatements"
+                id={`option-${index}`}
+                value={option}
+                onChange={(e) => setLocalStatement(e.currentTarget.value)}
+              />
+              <label for={`option-${index}`}>{option}</label>
+            </React.Fragment>
+          );
+        })}
+
+        <input
+          type="radio"
+          className="tFStatements"
+          name="tFStatements"
+          value=""
+          id="other"
+        />
+        <label for="other" id="other-label">
+          Other
+        </label>
+        <input
+          id="inputother"
+          className="other-input"
+          type="text"
+          name="othertext"
+          // onchange="changeradioother()"
+        />
+        <input
+          id="submit-true-false"
+          type="button"
+          value="done"
+          onClick={(e) => {
+            close();
+            setStatement(localStatement);
+            setAnswer(localAnswer);
+          }}
+        ></input>
+      </form>
     </div>
   );
 }

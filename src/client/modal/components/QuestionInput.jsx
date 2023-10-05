@@ -34,7 +34,7 @@ export function QuestionInput({
       {/* <!-- for original main area --> */}
       {questionType === QuestionType.Original && (
         <OriginalQuestionInput
-          onStatementChange={setStatement}
+          setStatement={setStatement}
           statement={statement}
         />
       )}
@@ -42,9 +42,10 @@ export function QuestionInput({
       {/* <!-- for trueFalse main area --> */}
       {questionType === QuestionType.TrueFalse && (
         <TrueFalseQuestionInput
-          onStatementChange={setStatement}
-          onAnswerChange={setAnswer}
+          setStatement={setStatement}
+          setAnswer={setAnswer}
           statement={statement}
+          answer={answer}
           data={data}
         />
       )}
@@ -52,9 +53,10 @@ export function QuestionInput({
       {/* <!-- for blank main area --> */}
       {questionType === QuestionType.Blank && (
         <BlankQuestionInput
-          onStatementChange={setStatement}
-          onAnswerChange={setAnswer}
+          setStatement={setStatement}
+          setAnswer={setAnswer}
           statement={statement}
+          answer={answer}
           data={data}
         />
       )}
@@ -62,16 +64,21 @@ export function QuestionInput({
       {/* <!-- for multiple main area --> */}
       {questionType === QuestionType.Multiple && (
         <MultipleQuestionInput
-          onStatementChange={setStatement}
+          setStatement={setStatement}
+          setAnswer={setAnswer}
           statement={statement}
+          answer={answer}
           data={data}
         />
       )}
       {/* <!-- for short main area --> */}
       {questionType === QuestionType.Short && (
         <ShortAnswerQuestionInput
-          onStatementChange={setStatement}
+          setStatement={setStatement}
+          setAnswer={setAnswer}
           statement={statement}
+          answer={answer}
+          data={data}
         />
       )}
     </div>

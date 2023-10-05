@@ -19,13 +19,13 @@ export function QuestionEditor({ data }) {
     serverFunctions.insertToDoc(value);
   }
 
-  useEffect(() => {
-    if (questionType === QuestionType.Blank) {
-      setStatement(data.blank.blank_sentence);
-    } else {
-      setStatement(data.text);
-    }
-  }, [questionType]);
+  // useEffect(() => {
+  //   if (questionType === QuestionType.Blank) {
+  //     setStatement(data.blank.blank_sentence);
+  //   } else {
+  //     setStatement(data.text);
+  //   }
+  // }, [questionType]);
 
   return (
     <div className="modal-container" id="afterLoading">

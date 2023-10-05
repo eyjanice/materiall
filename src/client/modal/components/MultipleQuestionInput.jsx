@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { PopupModal } from './PopupModal';
 
 export function MultipleQuestionInput({
-  onStatementChange,
+  setStatement,
+  setAnswer,
   statement,
   answer,
   data,
@@ -9,6 +11,8 @@ export function MultipleQuestionInput({
   const [options, setOptions] = useState(
     'You have not created or generated any options yet. Use "edit options".'
   );
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   return (
     <div id="multipleDiv" className="question-edit-container">
       <div>
@@ -19,7 +23,9 @@ export function MultipleQuestionInput({
         <div className="question-edit-label">statement</div>
         <div
           className="more-option-btn"
-          // onClick="showmultipleOptions()"
+          onClick={(e) => {
+            setIsPopupOpen(true);
+          }}
         >
           edit options
         </div>
@@ -54,6 +60,46 @@ export function MultipleQuestionInput({
         rows="2"
         cols="50"
       ></textarea>
+      {isPopupOpen && (
+        <PopupModal
+          onCloseClick={() => setIsPopupOpen(false)}
+          headerTypeText={'Multiple Choice Question'}
+          body={
+            <MultiplePopup
+              close={() => setIsPopupOpen(false)}
+              setStatement={setStatement}
+              setAnswer={setAnswer}
+              statement={statement}
+              answer={answer}
+              data={data}
+            />
+          }
+        />
+      )}
+    </div>
+  );
+}
+
+function MultiplePopup({
+  close,
+  setStatement,
+  setAnswer,
+  statement,
+  answer,
+  data,
+}) {
+  return (
+    <div>
+      <input
+        id="submit-blank"
+        type="button"
+        value="done"
+        onClick={(e) => {
+          close();
+          // setStatement(localStatement);
+          // setAnswer(localAnswer);
+        }}
+      ></input>
     </div>
   );
 }
