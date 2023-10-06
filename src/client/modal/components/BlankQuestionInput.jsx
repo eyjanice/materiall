@@ -36,27 +36,13 @@ export function BlankQuestionInput({
           edit blanks
         </div>
       </div>
-      <textarea
-        className="question-edit-textarea"
-        type="text"
-        id="blankQ"
-        value={statement}
-        onChange={(e) => {
-          setStatement(e.currentTarget.value);
-        }}
-        rows="2"
-        cols="50"
-      ></textarea>
+      <div className="read-only-box" type="text" id="blankQ">
+        {statement}
+      </div>
       <div className="question-edit-label">answer</div>
-      <textarea
-        className="question-edit-textarea"
-        type="text"
-        id="blankA"
-        value={answer}
-        onChange={(e) => setAnswer(e.currentTarget.value)}
-        rows="2"
-        cols="50"
-      ></textarea>
+      <div className="read-only-box" type="text" id="blankA">
+        {answer}
+      </div>
       {isPopupOpen && (
         <PopupModal
           onCloseClick={() => setIsPopupOpen(false)}
@@ -154,8 +140,22 @@ function BlankPopup({
             value="done"
             onClick={(e) => {
               close();
-              // setStatement(localStatement);
-              // '_'.repeat(word.length)
+              setStatement(
+                words
+                  .map((word, index) => {
+                    if (selectedIndice.includes(index)) {
+                      if (word.endsWith('.')) {
+                        return '_'.repeat(word.length - 1) + '.';
+                      }
+                      return '_'.repeat(word.length);
+                    } else {
+                      return word;
+                    }
+                  })
+                  .join(' ')
+                  .replaceAll('_ _', '___')
+              );
+
               setAnswer(
                 selectedIndice
                   .sort((a, b) => a - b)

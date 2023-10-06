@@ -32,13 +32,13 @@ const TEST_DATA = [
       'Most adult school classes are now virtual due to pandemic\n Older generation has difficulty in adopting old technologies',
     ],
     blank: {
-      end: ' are now virtual due to pandemic\n Older generation has difficulty in adopting new technologies\n',
+      end: ' are now virtual due to pandemic.\n Older generation has difficulty in adopting new technologies.\n',
       blank_sentence:
-        '_________________________ are now virtual due to pandemic\n Older generation has difficulty in adopting new technologies\n',
+        '_________________________ are now virtual due to pandemic.\n Older generation has difficulty in adopting new technologies.\n',
       answer: 'Most adult school classes',
       beginning: '',
     },
-    text: 'Most adult school classes are now virtual due to pandemic\n Older generation has difficulty in adopting new technologies\n',
+    text: 'Most adult school classes are now virtual due to pandemic. Older generation has difficulty in adopting new technologies.\n',
     mc_options: {
       generation: ['generations', 'kin', 'era', 'decade'],
       new: ['revamped', 'newest', 'newly', 'newer'],
