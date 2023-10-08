@@ -258,6 +258,7 @@ body {
 .detected-content p {
   font-size: 13px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .detected-content .btn-green {
@@ -301,4 +302,5 @@ body {
 
 ul {
   list-style-type: none;
+  padding: 0px;
 }

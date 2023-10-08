@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function OriginalQuestionInput({ onStatementChange, statement }) {
+export function OriginalQuestionInput({ setStatement, statement }) {
   return (
     <div id="originalDiv" className="question-edit-container">
       <div>
@@ -15,7 +15,7 @@ export function OriginalQuestionInput({ onStatementChange, statement }) {
         id="originalQ"
         value={statement}
         onChange={(e) => {
-          onStatementChange(e.currentTarget.value);
+          setStatement(e.currentTarget.value);
         }}
         rows="2"
         cols="50"

@@ -96,9 +96,136 @@ export function QuestionEditor({ data }) {
           data={data}
         />
       </div>
+      <PreviewBox
+        questionType={questionType}
+        statement={statement}
+        answer={answer}
+      />
+    </div>
+  );
+}
 
-      <div>{statement}</div>
-      <div>{answer}</div>
+function PreviewBox({ questionType, statement, answer, options }) {
+  const [answerPreviewOn, setAnswerPreviewOn] = useState(true);
+
+  let answerPreviewText;
+  let worksheetPreviewText;
+
+  if (questionType === QuestionType.Original) {
+    answerPreviewText = <div>{statement}</div>;
+    worksheetPreviewText = <div>{statement}</div>;
+  } else if (questionType === QuestionType.TrueFalse) {
+    answerPreviewText = (
+      <>
+        <div>True or False? {statement}</div>
+        <div>Answer: {answer}</div>
+      </>
+    );
+    worksheetPreviewText = (
+      <>
+        <div>True or False? {statement} </div>
+        <div>Answer:</div>
+      </>
+    );
+  } else if (questionType === QuestionType.Blank) {
+    answerPreviewText = (
+      <>
+        <div>{statement}</div>
+        <div>Answer: {answer}</div>
+      </>
+    );
+    worksheetPreviewText = (
+      <>
+        <div>{statement}</div>
+        <div>Answer:</div>
+      </>
+    );
+  } else if (questionType === QuestionType.Multiple) {
+    answerPreviewText = (
+      <>
+        <div>{statement}</div>
+        <div>{options}</div>
+        <div>Answer: {answer}</div>
+      </>
+    );
+    worksheetPreviewText = (
+      <>
+        <div>{statement}</div>
+        <div>{options}</div>
+        <div>Answer:</div>
+      </>
+    );
+  } else {
+    answerPreviewText = (
+      <>
+        <div>{statement}</div>
+        <div>Answer: {answer}</div>
+      </>
+    );
+    worksheetPreviewText = (
+      <>
+        <div>{statement}</div>
+        <div>Answer:</div>
+      </>
+    );
+  }
+
+  return (
+    <div className="preview-container">
+      <img
+        src="https://i.imgur.com/D97YLAT.png"
+        className="preview-decor-left"
+      />
+      <img
+        src="https://i.imgur.com/NFvNaQr.png"
+        className="preview-decor-right"
+      />
+      <div className="preview-area">
+        <div className="preview-btns">
+          <form className="preview-btn-form">
+            <input
+              className="preview-btn-show"
+              type="radio"
+              name="showPreview"
+              id="showAnswerKey"
+              onClick={(e) => {
+                setAnswerPreviewOn(true);
+              }}
+            />
+            <label for="showAnswerKey">Answer Key Preview</label>
+            <input
+              className="preview-btn-show"
+              type="radio"
+              name="showPreview"
+              id="showWorksheet"
+              onClick={(e) => {
+                setAnswerPreviewOn(false);
+              }}
+            />
+            <label for="showWorksheet">Worksheet Preview</label>
+          </form>
+          <div className="tooltip-container tooltip-container-preview">
+            <img className="tooltip tooltip-preview" />
+            <span className="tooltiptext tooltiptext-preview">
+              These previews show how your generated content will look once
+              MateriALL has converted them.
+            </span>
+          </div>
+        </div>
+        <div className="preview-content">
+          <div
+            id="worksheetPreview"
+            className="preview-text"
+            // style="display: none;"
+          >
+            {answerPreviewOn === false && worksheetPreviewText}
+          </div>
+          <div id="answerKeyPreview" className="preview-text">
+            {answerPreviewOn && answerPreviewText}
+          </div>
+          <div id="imagePreview" className="preview-img"></div>
+        </div>
+      </div>
     </div>
   );
 }

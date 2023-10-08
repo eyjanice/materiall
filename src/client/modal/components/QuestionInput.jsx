@@ -35,7 +35,10 @@ export function QuestionInput({
       {questionType === QuestionType.Original && (
         <OriginalQuestionInput
           setStatement={setStatement}
+          setAnswer={setAnswer}
           statement={statement}
+          answer={answer}
+          data={data}
         />
       )}
 

@@ -140,6 +140,7 @@ body {
 .preview-container {
   position: relative;
   flex: 1;
+  padding: 30px 50px 0 50px;
 }
 
 .preview-decor-left,
@@ -161,9 +162,6 @@ body {
 .preview-area {
   display: flex;
   flex-direction: column;
-  width: 700px;
-  margin-left: 50px;
-  margin-top: 30px;
   height: calc(100% - 30px);
 }
 
@@ -201,6 +199,7 @@ body {
   background-color: white;
   box-shadow: 0px -1px 2px darkgrey;
   height: calc(100% - 20px);
+  min-height: 200px;
   z-index: 5;
 }
 
@@ -496,10 +495,12 @@ input:checked + .slider:before {
   display: block;
   width: 100%;
   line-height: 28px;
+  cursor: pointer;
 }
 
 .options-form input {
   float: left;
+  cursor: pointer;
   margin-right: 5px;
 }
 

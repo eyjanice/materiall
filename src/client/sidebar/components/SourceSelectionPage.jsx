@@ -73,9 +73,9 @@ export function SourceSelectionPage({ slides }) {
           </div>
           <div className="detected-description">
             <p>
-              <DetectedContent slide={slides[pageNumber]} />
               Below are the source content that MateriALL detected based on the
               slide above.
+              <DetectedContent slide={slides[pageNumber]} />
             </p>
           </div>
           <form id="textOptions"></form>
@@ -125,7 +125,7 @@ function DetectedContent({ slide }) {
                     });
                   }}
                   value={text}
-                />
+                />{' '}
                 <label for={`text-${index}`}>{text}</label>
               </li>
             );
