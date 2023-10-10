@@ -52,20 +52,6 @@ function provideNewDocURL(newURL) {
   linkPar.setLinkUrl(newURL);
 }
 
-// inserts images to google doc
-function insertImgToDoc() {
-  const userProperties = PropertiesService.getUserProperties();
-  const imgresult = JSON.parse(userProperties.getProperty('CHECKED_IMG'));
-  const doc = DocumentApp.getActiveDocument();
-  const body = doc.getBody();
-  for (var i = 0; i < imgresult.length; i++) {
-    const image = UrlFetchApp.fetch(imgresult[i]).getBlob();
-    const currI = body.appendImage(image);
-    currI.setWidth(currI.getWidth() * 0.3);
-    currI.setHeight(currI.getHeight() * 0.3);
-  }
-}
-
 // inserts content to google doc
 export function insertToDoc(text) {
   const body = DocumentApp.getActiveDocument().getBody();
@@ -96,60 +82,4 @@ export function insertToDoc(text) {
 // gets new page content to generate
 function newPage(page) {
   return HtmlService.createTemplateFromFile(page).evaluate().getContent();
-}
-
-// ===== functions for landing.html ========================================
-// function test() {
-//   Logger.log(saveSlideID("https://docs.google.com/presentation/d/1oGmPZ0SFMrHCslWdR0Sqvyxn_wGnKvRTcK20IzqxZ8c/edit#slide=id.p"))
-// }
-
-// updates current slide url
-function saveSlideID(url) {
-  const userProperties = PropertiesService.getUserProperties();
-  // delete previous stored slide first
-  userProperties.deleteAllProperties();
-  const myRe = /presentation\/d\/([a-zA-Z0-9-_]+)/;
-  const presentationId = myRe.exec(url)[1];
-  userProperties.setProperty('PRESENTATION_ID', presentationId);
-  return true;
-}
-
-// ===== functions for modal.html ========================================
-
-// get previously selected elements
-export function getCheckedData() {
-  const userProperties = PropertiesService.getUserProperties();
-  const checkedData = userProperties.getProperty('CHECKED_TEXT');
-  const dataText = { text: checkedData };
-  const options = {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify(dataText),
-  };
-  // backup API: "https://materiall.herokuapp.com/autogenerate"
-  const response = UrlFetchApp.fetch(
-    'https://materiall.onrender.com/autogenerate',
-    options
-  );
-  const result = JSON.parse(response.getContentText());
-
-  const imgresult = JSON.parse(userProperties.getProperty('CHECKED_IMG'));
-
-  return [result, imgresult];
-}
-
-// gets thumbnail for slides
-function getThumbnailUrl() {
-  const userProperties = PropertiesService.getUserProperties();
-  const presentationId = userProperties.getProperty('PRESENTATION_ID');
-  const currPage = parseInt(userProperties.getProperty('CURR_PAGE'), 10);
-  const presentationPageIds = JSON.parse(
-    userProperties.getProperty('PAGE_IDS')
-  );
-  const thumbnailJson = Slides.Presentations.Pages.getThumbnail(
-    presentationId,
-    presentationPageIds[currPage],
-    { 'thumbnailProperties.thumbnailSize': 'SMALL' }
-  );
-  return thumbnailJson.contentUrl;
 }

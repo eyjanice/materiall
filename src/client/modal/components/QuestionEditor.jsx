@@ -16,7 +16,9 @@ export function QuestionEditor({ data }) {
     // question. options. answer
     let value = statement;
     value = value.split('<br>').join('\n');
-    serverFunctions.insertToDoc(value);
+    serverFunctions.insertToDoc(value).then(() => {
+      window.parent?.postMessage('closeDialog', '*');
+    });
   }
 
   // useEffect(() => {

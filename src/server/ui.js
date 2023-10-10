@@ -15,6 +15,15 @@ export const onOpen = (e) => {
 export const openDialog = () => {
   const html = HtmlService.createTemplateFromFile('modal')
     .evaluate()
+    .append(
+      `<script>
+        window.addEventListener('message', function(event) {
+          if (event.data === "closeDialog") {
+              google.script.host.close();
+          }
+        }, false);
+      </script>`
+    )
     .setWidth(800)
     .setHeight(700);
   DocumentApp.getUi().showModalDialog(html, 'MateriALL Question Editor');
