@@ -4,9 +4,9 @@ import { LoadingPage } from './components/LoadingPage';
 import { SourceSelectionPage } from './components/SourceSelectionPage';
 
 export function App() {
-  const [page, setPage] = useState('SourceSelection');
+  const [page, setPage] = useState('Landing');
   const [slideUrl, setSlideUrl] = useState('');
-  const [slides, setSlides] = useState(TEST_DATA);
+  const [slides, setSlides] = useState();
   if (page === 'Landing') {
     return (
       <LandingPage

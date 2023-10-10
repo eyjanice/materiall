@@ -1,15 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { serverFunctions } from '../utils/serverFunctions';
 import './App.css';
 
 import { QuestionEditor } from './components/QuestionEditor';
+import { LoadingPage } from './components/LoadingPage';
 
 export function App() {
+  const [data, setData] = useState();
+
   useEffect(() => {
-    serverFunctions.getCheckedData().then(console.log).catch(alert);
+    serverFunctions
+      .getCheckedData()
+      .then((serverResponse) => {
+        setData(serverResponse[0]);
+      })
+      .catch(alert);
   }, []);
 
-  return <QuestionEditor data={TEST_DATA[0]} />;
+  if (!data) return <LoadingPage />;
+  return <QuestionEditor data={data} />;
 }
 
 const TEST_DATA = [
