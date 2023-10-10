@@ -183,7 +183,6 @@ function TrueFalsePopup({
           className="other-input"
           type="text"
           name="othertext"
-          // onchange="changeradioother()"
         />
         <input
           id="submit-true-false"

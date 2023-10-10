@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { serverFunctions } from '../../utils/serverFunctions';
 
 export function LoadingPage({ slideUrl, onDataLoaded }) {
-  // TODO: Loading the data
   useEffect(() => {
     console.log('loading data');
     serverFunctions

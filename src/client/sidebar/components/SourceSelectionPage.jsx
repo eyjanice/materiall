@@ -93,7 +93,6 @@ export function SourceSelectionPage({ slides }) {
 }
 
 function DetectedContent({ slide }) {
-  // use map - one for texts and one for image
   const [checked, setChecked] = useState({});
   function onClickHandler() {
     console.log(Object.keys(checked));

@@ -21,8 +21,6 @@ export function ShortAnswerQuestionInput({ onStatementChange, statement }) {
         className="question-edit-textarea"
         type="text"
         id="shortA"
-        // onkeypress="showPreview(this)"
-        // onChange="showPreview(this)"
         rows="5"
         cols="50"
       ></textarea>

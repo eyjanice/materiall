@@ -45,8 +45,6 @@ export function MultipleQuestionInput({
         className="question-edit-textarea"
         id="multipleO"
         value={options}
-        // onkeypress="showPreview(this)"
-        // onChange="showPreview(this)"
         rows="5"
         cols="50"
       ></textarea>
@@ -55,8 +53,6 @@ export function MultipleQuestionInput({
       <textarea
         className="question-edit-textarea"
         id="multipleA"
-        // onkeypress="showPreview(this)"
-        // onChange="showPreview(this)"
         rows="2"
         cols="50"
       ></textarea>
@@ -96,8 +92,6 @@ function MultiplePopup({
         value="done"
         onClick={(e) => {
           close();
-          // setStatement(localStatement);
-          // setAnswer(localAnswer);
         }}
       ></input>
     </div>

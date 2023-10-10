@@ -8,10 +8,6 @@ export function BlankQuestionInput({
   answer,
   data,
 }) {
-  // useEffect(() => {
-  //   setAnswer(answer);
-  // }, [answer]); // as [answer] changes {setAnswer} is called
-
   useEffect(() => {
     setStatement(data.blank.blank_sentence);
     setAnswer(data.blank.answer);

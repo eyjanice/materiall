@@ -21,14 +21,6 @@ export function QuestionEditor({ data }) {
     });
   }
 
-  // useEffect(() => {
-  //   if (questionType === QuestionType.Blank) {
-  //     setStatement(data.blank.blank_sentence);
-  //   } else {
-  //     setStatement(data.text);
-  //   }
-  // }, [questionType]);
-
   return (
     <div className="modal-container" id="afterLoading">
       {/* <!-- form for question types --> */}
@@ -215,11 +207,7 @@ function PreviewBox({ questionType, statement, answer, options }) {
           </div>
         </div>
         <div className="preview-content">
-          <div
-            id="worksheetPreview"
-            className="preview-text"
-            // style="display: none;"
-          >
+          <div id="worksheetPreview" className="preview-text">
             {answerPreviewOn === false && worksheetPreviewText}
           </div>
           <div id="answerKeyPreview" className="preview-text">

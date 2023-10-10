@@ -24,11 +24,6 @@ export function QuestionInput({
   setAnswer,
   data,
 }) {
-  // Prop
-  // question
-  // options
-  // answer
-
   return (
     <div className="main-question" id="mainQuestion">
       {/* <!-- for original main area --> */}
